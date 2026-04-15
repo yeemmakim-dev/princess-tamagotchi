@@ -177,6 +177,15 @@ body{
 }
 .princess-mirror-stack .mirror-frame.f2{animation-delay:-1s}
 @keyframes mirrorSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
+/* Settings tab: 2-frame wand animation, 1s per frame */
+.princess-wand-stack{position:relative;width:192px;height:192px;margin:0 auto}
+.princess-wand-stack .wand-frame{
+  position:absolute;top:0;left:0;width:192px;height:192px;
+  image-rendering:pixelated;
+  animation:wandSwap 2s steps(1) infinite;
+}
+.princess-wand-stack .wand-frame.f2{animation-delay:-1s}
+@keyframes wandSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
 /* Completion popup: static cheer princess (alternates per day, gentle squish) */
 .princess-cheer{
   width:192px;height:192px;image-rendering:pixelated;
@@ -558,6 +567,15 @@ function pixelPrincess(prop){
       +'<img class="princess-cheer" src="princess-cheer'+n+'.png" alt="공주" draggable="false"/>'
       +'</div>';
   }
+  if(prop==='wand'){
+    // Two-frame wand idle animation (1s per frame) for settings tab
+    return '<div class="princess-wrap">'
+      +'<div class="princess-wand-stack">'
+      +'<img class="wand-frame f1" src="princess-wand1.png" alt="공주" draggable="false"/>'
+      +'<img class="wand-frame f2" src="princess-wand2.png" alt="공주" draggable="false"/>'
+      +'</div>'
+      +'</div>';
+  }
   if(prop==='squat'){
     // Pixel dumbbell SVG
     var s='<svg class="princess-prop prop-dumbbell" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">';
@@ -581,24 +599,6 @@ function pixelPrincess(prop){
     s+=R(7,8,2,1,ruby);         // heart mark
     s+='</svg>';
     propHtml=s;
-  } else if(prop==='wand'){
-    var s='<svg class="princess-prop prop-wand" viewBox="0 0 14 20" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">';
-    // Star tip
-    s+=R(6,0,2,2,gold);
-    s+=R(4,2,6,2,gold);
-    s+=R(2,4,10,2,gold);
-    s+=R(4,6,6,2,gold);
-    s+=R(3,5,1,1,gold);
-    s+=R(10,5,1,1,gold);
-    s+=R(5,8,1,2,gold);
-    s+=R(8,8,1,2,gold);
-    // Ruby center
-    s+=R(6,3,2,2,ruby);
-    // Handle
-    s+=R(6,6,2,14,dg);
-    s+=R(6,6,1,14,'#8B6914');
-    s+='</svg>';
-    propHtml=s+'<span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span>';
   }
   return '<div class="princess-wrap">'
     +'<img class="'+cls+'" src="princess.png" alt="공주" draggable="false"/>'
