@@ -97,9 +97,9 @@ body{
 .status-bar .heart.empty{color:var(--frame);opacity:.55}
 .status-bar .stat{display:flex;align-items:center;gap:4px}
 
-/* Princess stage */
+/* Princess stage — Tamagotchi LCD dome shape */
 .princess-stage{
-  margin:4px 0 12px;padding:14px;
+  margin:4px 0 12px;padding:22px 14px 16px;
   background:var(--hi);
   border:3px solid var(--dk);
   box-shadow:4px 4px 0 var(--dk);
@@ -109,6 +109,16 @@ body{
     linear-gradient(90deg, rgba(90,31,58,.05) 1px, transparent 1px);
   background-size:4px 4px;
   position:relative;
+  /* dome top, flat bottom — like a tamagotchi LCD */
+  border-radius:50% 50% 10px 10px / 32% 32% 10px 10px;
+  overflow:hidden;
+}
+.princess-stage::after{
+  /* subtle LCD shine on the top curve */
+  content:'';position:absolute;top:6px;left:10%;right:10%;height:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0));
+  border-radius:50%/100% 100% 0 0;
+  pointer-events:none;
 }
 .princess-wrap{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center;margin:0 auto}
 .princess{
