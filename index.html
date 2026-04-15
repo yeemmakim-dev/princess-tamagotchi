@@ -292,10 +292,10 @@ input:focus{outline:none;box-shadow:2px 2px 0 var(--px) !important}
   margin:0 auto;
   overflow:visible;
 }
-/* Classic aspect-ratio box (frame ratio 500x272 → 54.4% padding) */
-.safe-assembly::before{content:'';display:block;padding-top:54.4%}
-/* Reward image BEHIND frame — item window at 45.4%-66.5% x, 33.7%-65.3% y */
-.safe-img-layer{position:absolute;top:33.7%;left:45.4%;width:21.1%;height:31.6%;z-index:0;pointer-events:none;overflow:hidden;image-rendering:pixelated}
+/* Classic aspect-ratio box (frame ratio 600x367 → 61.2% padding) */
+.safe-assembly::before{content:'';display:block;padding-top:61.2%}
+/* Reward image BEHIND frame — item window at 38.7%-62.4% x, 33.7%-65.2% y */
+.safe-img-layer{position:absolute;top:33.7%;left:38.7%;width:23.7%;height:31.6%;z-index:0;pointer-events:none;overflow:hidden;image-rendering:pixelated}
 .safe-img-layer img{width:100%;height:100%;object-fit:cover;object-position:center;transition:filter .5s;image-rendering:pixelated}
 /* PNG safe frame fills full assembly */
 .safe-frame-img{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;object-fit:contain;transition:filter .4s;image-rendering:pixelated}
