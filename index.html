@@ -154,6 +154,15 @@ body{
 }
 .princess-lift-stack .lift-frame.f2{animation-delay:-1s, 0s}
 @keyframes liftSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
+/* Cardio-day run animation: 2 frames, 0.25s each (fast like running) */
+.princess-run-stack{position:relative;width:192px;height:192px;margin:0 auto}
+.princess-run-stack .run-frame{
+  position:absolute;top:0;left:0;width:192px;height:192px;
+  image-rendering:pixelated;
+  animation:runSwap .5s steps(1) infinite, blink 4s infinite;
+}
+.princess-run-stack .run-frame.f2{animation-delay:-.25s, 0s}
+@keyframes runSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
 
 /* Pixel buttons */
 .btn-primary,.btn-ghost,.btn-skip,.safe-cta,.complete-btn,.weight-row button,.wt-input-row button{
@@ -497,6 +506,15 @@ function pixelPrincess(prop){
       +'</div>'
       +'</div>';
   }
+  if(prop==='run'){
+    // Two-frame cardio running animation (0.25s per frame)
+    return '<div class="princess-wrap">'
+      +'<div class="princess-run-stack">'
+      +'<img class="run-frame f1" src="princess-run1.png" alt="공주" draggable="false"/>'
+      +'<img class="run-frame f2" src="princess-run2.png" alt="공주" draggable="false"/>'
+      +'</div>'
+      +'</div>';
+  }
   if(prop==='squat'){
     // Pixel dumbbell SVG
     var s='<svg class="princess-prop prop-dumbbell" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">';
@@ -573,10 +591,12 @@ function renderStatusBar(){
 function renderPrincessStage(tab){
   var prop;
   if(tab===0){
-    // On strength days, show 2-frame dumbbell curl animation
+    // On strength days → dumbbell curl, cardio days → running
     try{
       var r=curRoutine();
-      prop=(r&&r.type==='strength')?'lift':'squat';
+      if(r&&r.type==='strength')prop='lift';
+      else if(r&&r.type==='cardio')prop='run';
+      else prop='squat';
     }catch(e){prop='squat';}
   }
   else if(tab===1)prop='book';
