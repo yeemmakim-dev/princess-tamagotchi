@@ -815,7 +815,12 @@ function generateCardio(idx){
 var CYCLE_PATTERN=['strength','cardio','strength','cardio','strength'];
 function getRoutineForCycle(globalIdx){
   var pos=globalIdx%5;
-  if(CYCLE_PATTERN[pos]==='cardio') return generateCardio(globalIdx);
+  var baseType=CYCLE_PATTERN[pos];
+  // Day-level swap override (e.g. strength → cardio for today)
+  if(typeof S!=='undefined' && S.dayTypeSwap && S.dayTypeSwap[globalIdx]){
+    baseType=S.dayTypeSwap[globalIdx];
+  }
+  if(baseType==='cardio') return generateCardio(globalIdx);
   else return generateRoutine(globalIdx);
 }
 var SWAP_MAX=3;
@@ -829,6 +834,7 @@ if(!S.history)S.history=[];
 if(!S.reward)S.reward={};
 if(!S.swaps)S.swaps={};
 if(!S.swapped)S.swapped={};
+if(!S.dayTypeSwap)S.dayTypeSwap={};
 if(!S.extras)S.extras=[];
 if(!S.customPool)S.customPool=[];
 if(!S.streak)S.streak=0;
@@ -955,17 +961,21 @@ function renderWorkout(){
     if(!allDone){
       h+='<div style="display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:8px">';
       h+='<span style="font-size:14px;color:var(--tm);font-weight:700">🏰 왕실이 지정한 오늘의 근력 퀘스트</span>';
-      h+='<span style="font-size:11px;color:var(--th);font-weight:500">🔄 변경 '+getSwapsUsed()+'/'+SWAP_MAX+'</span>';
+      h+='<span style="font-size:11px;color:var(--th);font-weight:500">🔄 유산소 변경 '+getSwapsUsed()+'/'+SWAP_MAX+'</span>';
       h+='</div>';
+      // Day-level swap: strength → cardio
+      if(doneSets===0){
+        var swapsLeft=SWAP_MAX-getSwapsUsed();
+        if(swapsLeft>0){
+          h+='<button onclick="showDaySwapConfirm()" style="display:block;margin:0 auto 10px;font-size:12px;padding:6px 14px;border:1.5px dashed var(--c3);border-radius:12px;background:var(--sf);color:var(--th);cursor:pointer;font-family:inherit">🏃‍♀️ 오늘은 유산소로 변경 ('+swapsLeft+'번 남음)</button>';
+        }
+      }
       h+='<div class="ex-list">';
       r.exercises.forEach(function(ex,i){
         var exDone=true;
         for(var s=0;s<ex.sets;s++){if(!S.sets[i+'_'+s]){exDone=false;break;}}
         h+='<div class="ex-card'+(exDone?' done':'')+'">';
-        var swapsLeft=SWAP_MAX-getSwapsUsed();
-        h+='<div class="ex-name" style="display:flex;justify-content:space-between;align-items:center">'+ex.name;
-        if(!exDone&&swapsLeft>0) h+='<button onclick="showSwapConfirm('+i+')" style="font-size:10px;padding:3px 8px;border:1.5px dashed var(--c3);border-radius:8px;background:var(--sf);color:var(--th);cursor:pointer;font-family:inherit">🔄 변경</button>';
-        h+='</div>';
+        h+='<div class="ex-name">'+ex.name+'</div>';
         h+='<div class="ex-desc">'+ex.sets+'세트 × '+ex.reps+(typeof ex.reps==='number'?'회':'')+(ex.sets<=2?' · 마무리':'')+'</div>';
         h+='<div class="ex-sets">';
         for(var s=0;s<ex.sets;s++){
@@ -1647,46 +1657,38 @@ function saveW(){
   save();render();toast(v+'kg 저장! 👸');
 }
 
-// --- Swap exercise ---
-function showSwapConfirm(exIdx){
+// --- Swap day type: strength → cardio ---
+function showDaySwapConfirm(){
   var swaps=getSwapsUsed();
   var left=SWAP_MAX-swaps;
-  var r=curRoutine();
-  var ex=r.exercises[exIdx];
   var h='<div class="skip-modal" onclick="if(event.target===this)closeModal()">';
   h+='<div class="skip-box">';
   if(left<=0){
     h+='<h3>😥 변경 소진!</h3>';
-    h+='<p>이번 달 변경 '+SWAP_MAX+'번을 다 썼어요.<br>지금 운동으로 힘내봐요!</p>';
+    h+='<p>이번 달 변경 '+SWAP_MAX+'번을 다 썼어요.<br>지금 근력 운동으로 힘내봐요!</p>';
     h+='<div class="skip-btns"><button style="flex:1;background:var(--c);color:#fff" onclick="closeModal()">알겠어요 💪</button></div>';
   } else {
-    h+='<h3>'+ex.name+' 변경할까요? 🔄</h3>';
+    h+='<h3>오늘은 유산소로 바꿀까요? 🏃‍♀️</h3>';
     h+='<span class="skip-count">남은 변경: '+left+'번</span>';
-    h+='<p>같은 부위의 다른 운동으로 바꿔요!</p>';
+    h+='<p>오늘의 근력 수련 대신 유산소를 해요!<br>다음 근력 일정은 그대로 유지돼요.</p>';
     h+='<div class="skip-btns">';
-    h+='<button style="background:var(--sf);color:var(--tm)" onclick="closeModal()">그냥 할게</button>';
-    h+='<button style="background:var(--c);color:#fff" onclick="doSwap('+exIdx+')">변경!</button>';
+    h+='<button style="background:var(--sf);color:var(--tm)" onclick="closeModal()">그냥 근력 할게</button>';
+    h+='<button style="background:var(--c);color:#fff" onclick="doDaySwap()">유산소로!</button>';
     h+='</div>';
   }
   h+='</div></div>';
   document.getElementById('modal').innerHTML=h;
 }
-function doSwap(exIdx){
-  var cats=['compound','hinge',null,'core'];
-  var catName=cats[exIdx];
-  if(catName===null) catName=POOL.pull.some(function(e){return e.name===curRoutine().exercises[exIdx].name})?'pull':'push';
-  var pool=POOL[catName];
-  var cur=curRoutine().exercises[exIdx].name;
-  var others=pool.filter(function(e){return e.name!==cur});
-  if(others.length===0){closeModal();toast('다른 운동이 없어요!');return;}
-  var pick=others[Math.floor(Math.random()*others.length)];
-  var key=S.idx+'_'+exIdx;
-  S.swapped[key]=pick;
-  for(var s=0;s<10;s++){delete S.sets[exIdx+'_'+s]}
+function doDaySwap(){
+  S.dayTypeSwap[S.idx]='cardio';
+  // Clear any per-exercise progress for today's strength workout
+  for(var i=0;i<10;i++){for(var s=0;s<10;s++){delete S.sets[i+'_'+s]}}
+  // Reset today's cardio choice so user picks fresh
+  S.cardioChoice=null;
   var mk=curMonthKey();
   S.swaps[mk]=(S.swaps[mk]||0)+1;
   save();closeModal();
-  toast('🔄 '+pick.name+'(으)로 변경!');render();
+  toast('🏃‍♀️ 오늘은 유산소로 변경!');render();
 }
 function closeModal(){document.getElementById('modal').innerHTML=''}
 
