@@ -110,9 +110,9 @@ body{
   background-size:4px 4px;
   position:relative;
 }
-.princess-wrap{position:relative;width:140px;height:140px;display:flex;align-items:center;justify-content:center}
+.princess-wrap{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center;margin:0 auto}
 .princess{
-  width:128px;height:128px;image-rendering:pixelated;
+  width:192px;height:192px;image-rendering:pixelated;
   animation:idle 2.4s ease-in-out infinite, blink 4s infinite;
   transform-origin:center bottom;
 }
@@ -133,22 +133,22 @@ body{
 .princess-squat{animation:squat 1.4s ease-in-out infinite, blink 3s infinite}
 @keyframes squat{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(6px) scaleY(.88)}}
 .princess-prop{position:absolute;image-rendering:pixelated;pointer-events:none}
-.prop-dumbbell{right:4px;bottom:38px;width:30px;height:30px;animation:bob 1.4s ease-in-out infinite}
-.prop-book{right:2px;bottom:34px;width:32px;height:32px;animation:float 2.2s ease-in-out infinite}
-.prop-mirror{right:2px;bottom:44px;width:30px;height:36px;animation:float 2.2s ease-in-out infinite}
-.prop-wand{right:-2px;bottom:44px;width:34px;height:44px;animation:wandSwing 2s ease-in-out infinite;transform-origin:50% 90%}
+.prop-dumbbell{right:6px;bottom:58px;width:44px;height:44px;animation:bob 1.4s ease-in-out infinite}
+.prop-book{right:2px;bottom:52px;width:48px;height:48px;animation:float 2.2s ease-in-out infinite}
+.prop-mirror{right:2px;bottom:66px;width:46px;height:54px;animation:float 2.2s ease-in-out infinite}
+.prop-wand{right:-2px;bottom:66px;width:52px;height:66px;animation:wandSwing 2s ease-in-out infinite;transform-origin:50% 90%}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @keyframes wandSwing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-.sparkle{position:absolute;color:#F4D06F;font-size:10px;text-shadow:1px 1px 0 #B8860B;animation:sparkle 1.4s ease-in-out infinite}
-.sparkle.s1{top:8px;right:30px;animation-delay:0s}
-.sparkle.s2{top:22px;right:10px;animation-delay:.4s}
-.sparkle.s3{top:40px;right:0px;animation-delay:.8s}
+.sparkle{position:absolute;color:#F4D06F;font-size:14px;text-shadow:1px 1px 0 #B8860B;animation:sparkle 1.4s ease-in-out infinite}
+.sparkle.s1{top:12px;right:42px;animation-delay:0s}
+.sparkle.s2{top:32px;right:14px;animation-delay:.4s}
+.sparkle.s3{top:58px;right:0px;animation-delay:.8s}
 @keyframes sparkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.1)}}
 /* Strength-day lift animation: 2 frames, 1 sec each */
-.princess-lift-stack{position:relative;width:128px;height:128px}
+.princess-lift-stack{position:relative;width:192px;height:192px;margin:0 auto}
 .princess-lift-stack .lift-frame{
-  position:absolute;top:0;left:0;width:128px;height:128px;
+  position:absolute;top:0;left:0;width:192px;height:192px;
   image-rendering:pixelated;
   animation:liftSwap 2s steps(1) infinite, blink 4s infinite;
 }
