@@ -526,6 +526,12 @@ function pixelPrincess(prop){
       +'</div>'
       +'</div>';
   }
+  if(prop==='mirror'){
+    // Mirror princess sprite (mirror is part of the image)
+    return '<div class="princess-wrap">'
+      +'<img class="princess" src="princess-mirror.png" alt="공주" draggable="false"/>'
+      +'</div>';
+  }
   if(prop==='squat'){
     // Pixel dumbbell SVG
     var s='<svg class="princess-prop prop-dumbbell" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">';
@@ -547,17 +553,6 @@ function pixelPrincess(prop){
     s+=R(4,7,8,1,'#F4A7C2');    // page line
     s+=R(4,9,5,1,'#F4A7C2');    // page line
     s+=R(7,8,2,1,ruby);         // heart mark
-    s+='</svg>';
-    propHtml=s;
-  } else if(prop==='mirror'){
-    var s='<svg class="princess-prop prop-mirror" viewBox="0 0 16 20" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">';
-    s+=R(2,1,12,12,gold);        // frame outer
-    s+=R(3,2,10,10,'#C8E0F0');   // mirror glass
-    s+=R(4,3,3,3,dressW);        // highlight
-    s+=R(2,1,12,1,'#FFF4C4');    // top shine
-    s+=R(13,2,1,11,dg);          // side shadow
-    s+=R(7,13,2,5,dg);           // handle
-    s+=R(6,17,4,2,gold);         // handle knob
     s+='</svg>';
     propHtml=s;
   } else if(prop==='wand'){
