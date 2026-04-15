@@ -122,14 +122,10 @@ body{
 .princess-wrap{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center;margin:0 auto}
 .princess{
   width:192px;height:192px;image-rendering:pixelated;
-  animation:idle 2.4s ease-in-out infinite, blink 4s infinite;
+  animation:idle 2.4s ease-in-out infinite;
   transform-origin:center bottom;
 }
-.princess.jump{animation:princessJump .6s ease-in-out 3, blink 3s infinite}
-@keyframes blink{
-  0%,46%,50%,96%,100%{filter:none}
-  48%{filter:brightness(.5) saturate(.6)}
-}
+.princess.jump{animation:princessJump .6s ease-in-out 3}
 @keyframes idle{
   0%,100%{transform:translateY(0) scaleY(1)}
   50%{transform:translateY(-2px) scaleY(1.02)}
@@ -139,7 +135,7 @@ body{
   50%{transform:translateY(-14px)}
 }
 .princess-label{font-size:11px;color:var(--dk);font-weight:700;letter-spacing:1px}
-.princess-squat{animation:squat 1.4s ease-in-out infinite, blink 3s infinite}
+.princess-squat{animation:squat 1.4s ease-in-out infinite}
 @keyframes squat{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(6px) scaleY(.88)}}
 .princess-prop{position:absolute;image-rendering:pixelated;pointer-events:none}
 .prop-dumbbell{right:6px;bottom:58px;width:44px;height:44px;animation:bob 1.4s ease-in-out infinite}
@@ -159,18 +155,18 @@ body{
 .princess-lift-stack .lift-frame{
   position:absolute;top:0;left:0;width:192px;height:192px;
   image-rendering:pixelated;
-  animation:liftSwap 2s steps(1) infinite, blink 4s infinite;
+  animation:liftSwap 2s steps(1) infinite;
 }
-.princess-lift-stack .lift-frame.f2{animation-delay:-1s, 0s}
+.princess-lift-stack .lift-frame.f2{animation-delay:-1s}
 @keyframes liftSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
 /* Cardio-day run animation: 2 frames, 0.25s each (fast like running) */
 .princess-run-stack{position:relative;width:192px;height:192px;margin:0 auto}
 .princess-run-stack .run-frame{
   position:absolute;top:0;left:0;width:192px;height:192px;
   image-rendering:pixelated;
-  animation:runSwap .5s steps(1) infinite, blink 4s infinite;
+  animation:runSwap .5s steps(1) infinite;
 }
-.princess-run-stack .run-frame.f2{animation-delay:-.25s, 0s}
+.princess-run-stack .run-frame.f2{animation-delay:-.25s}
 @keyframes runSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
 
 /* Pixel buttons */
