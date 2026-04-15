@@ -168,6 +168,15 @@ body{
 }
 .princess-run-stack .run-frame.f2{animation-delay:-.25s}
 @keyframes runSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
+/* Mirror tab: 2-frame idle, 2s per frame */
+.princess-mirror-stack{position:relative;width:192px;height:192px;margin:0 auto}
+.princess-mirror-stack .mirror-frame{
+  position:absolute;top:0;left:0;width:192px;height:192px;
+  image-rendering:pixelated;
+  animation:mirrorSwap 4s steps(1) infinite;
+}
+.princess-mirror-stack .mirror-frame.f2{animation-delay:-2s}
+@keyframes mirrorSwap{0%,49.99%{opacity:1}50%,100%{opacity:0}}
 
 /* Pixel buttons */
 .btn-primary,.btn-ghost,.btn-skip,.safe-cta,.complete-btn,.weight-row button,.wt-input-row button{
@@ -527,9 +536,12 @@ function pixelPrincess(prop){
       +'</div>';
   }
   if(prop==='mirror'){
-    // Mirror princess sprite (mirror is part of the image)
+    // Two-frame mirror idle animation (2s per frame)
     return '<div class="princess-wrap">'
-      +'<img class="princess" src="princess-mirror.png" alt="공주" draggable="false"/>'
+      +'<div class="princess-mirror-stack">'
+      +'<img class="mirror-frame f1" src="princess-mirror1.png" alt="공주" draggable="false"/>'
+      +'<img class="mirror-frame f2" src="princess-mirror2.png" alt="공주" draggable="false"/>'
+      +'</div>'
       +'</div>';
   }
   if(prop==='squat'){
