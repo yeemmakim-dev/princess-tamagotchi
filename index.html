@@ -99,7 +99,7 @@ body{
 
 /* Princess stage — Tamagotchi LCD dome shape */
 .princess-stage{
-  margin:4px 0 12px;padding:22px 14px 16px;
+  margin:4px 0 12px;padding:36px 14px 16px;
   background:var(--hi);
   border:3px solid var(--dk);
   box-shadow:4px 4px 0 var(--dk);
@@ -109,14 +109,13 @@ body{
     linear-gradient(90deg, rgba(90,31,58,.05) 1px, transparent 1px);
   background-size:4px 4px;
   position:relative;
-  /* dome top, flat bottom — like a tamagotchi LCD */
-  border-radius:50% 50% 10px 10px / 32% 32% 10px 10px;
-  overflow:hidden;
+  /* gentle dome top, flat bottom */
+  border-radius:46% 46% 8px 8px / 22% 22% 8px 8px;
 }
 .princess-stage::after{
   /* subtle LCD shine on the top curve */
-  content:'';position:absolute;top:6px;left:10%;right:10%;height:18px;
-  background:linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0));
+  content:'';position:absolute;top:10px;left:18%;right:18%;height:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,0));
   border-radius:50%/100% 100% 0 0;
   pointer-events:none;
 }
@@ -285,20 +284,26 @@ input:focus{outline:none;box-shadow:2px 2px 0 var(--px) !important}
 .safe-header-edit{font-size:12px;color:var(--tm);background:none;border:none;cursor:pointer;font-family:inherit;font-weight:500;flex-shrink:0}
 .safe-body{padding:0 16px 20px;display:flex;flex-direction:column;align-items:center;gap:14px}
 
-/* ---- Vault Assembly (PNG frame, transparent heart) ---- */
-.safe-assembly{position:relative;width:360px;max-width:100%;aspect-ratio:500/272;margin:0 auto;overflow:visible}
-/* Reward image BEHIND frame — positioned exactly at heart hole */
+/* ---- Vault Assembly (PNG frame, landscape) ---- */
+.safe-assembly{
+  position:relative;
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  overflow:visible;
+}
+/* Classic aspect-ratio box (frame ratio 500x272 → 54.4% padding) */
+.safe-assembly::before{content:'';display:block;padding-top:54.4%}
+/* Reward image BEHIND frame — item window at 45.4%-66.5% x, 33.7%-65.3% y */
 .safe-img-layer{position:absolute;top:33.7%;left:45.4%;width:21.1%;height:31.6%;z-index:0;pointer-events:none;overflow:hidden;image-rendering:pixelated}
 .safe-img-layer img{width:100%;height:100%;object-fit:cover;object-position:center;transition:filter .5s;image-rendering:pixelated}
-/* PNG safe frame — landscape tamagotchi vault, inner window ~45-66% x, 34-65% y */
+/* PNG safe frame fills full assembly */
 .safe-frame-img{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;object-fit:contain;transition:filter .4s;image-rendering:pixelated}
-/* Stage tints for frame — no grayscale, keep original colors */
 .stage-approved .safe-frame-img{filter:brightness(1.1) drop-shadow(0 0 12px rgba(255,200,100,.4))}
-/* Stage filters for reward image — no grayscale */
 .stage-approved .safe-img-layer img{filter:brightness(1.1) saturate(1.15);animation:itemShine 3s ease-in-out infinite}
 @keyframes itemShine{0%,100%{filter:brightness(1.1) saturate(1.15)}50%{filter:brightness(1.2) saturate(1.25)}}
-/* Stamp */
-.safe-stamp{position:absolute;top:70px;right:-8px;background:linear-gradient(135deg,#FF3E7A,#E8205A);color:#fff;font-family:'Gowun Batang',Georgia,serif;font-size:20px;font-weight:700;padding:11px 24px;border-radius:4px;transform:rotate(12deg) scale(0);transition:transform .4s;box-shadow:0 4px 14px rgba(255,62,122,.35);letter-spacing:3px;border:2.5px solid rgba(255,255,255,.5);z-index:6}
+/* Stamp — positioned over right side of frame */
+.safe-stamp{position:absolute;top:20%;right:4%;background:linear-gradient(135deg,#FF3E7A,#E8205A);color:#fff;font-family:'Gowun Batang',Georgia,serif;font-size:16px;font-weight:700;padding:8px 16px;border-radius:4px;transform:rotate(12deg) scale(0);transition:transform .4s;box-shadow:0 4px 14px rgba(255,62,122,.35);letter-spacing:2px;border:2px solid rgba(255,255,255,.5);z-index:6}
 .stage-approved .safe-stamp{transform:rotate(12deg) scale(1);animation:stampPop .5s ease}
 @keyframes stampPop{0%{transform:rotate(12deg) scale(0)}60%{transform:rotate(12deg) scale(1.2)}80%{transform:rotate(12deg) scale(.95)}100%{transform:rotate(12deg) scale(1)}}
 /* Glow */
